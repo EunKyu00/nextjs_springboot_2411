@@ -1,10 +1,18 @@
 package com.rest.domain.article.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.rest.global.jpa.BaseEntity;
+import jakarta.persistence.Entity;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+@Entity
 @Getter
+@Setter
 @AllArgsConstructor
-public class Article {
-    private Long id;
+@NoArgsConstructor
+@SuperBuilder
+@ToString(callSuper = true)
+public class Article extends BaseEntity {
+    private String subject;
+    private String content;
 }
