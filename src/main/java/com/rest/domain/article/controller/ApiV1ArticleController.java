@@ -1,6 +1,7 @@
 package com.rest.domain.article.controller;
 
 import com.rest.domain.article.entity.Article;
+import com.rest.domain.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/articles")
 public class ApiV1ArticleController {
+    private final ArticleService articleService;
+
     @GetMapping("")
     public List<Article> getArticles(){
-        List<Article> articles = new ArrayList<>();
+        List<Article> articles = articleService.getList();
         return articles;
     }
 
     @GetMapping("/{id}")
     public Article getArticle(@PathVariable("id") Long id){
-        Article article = new Article();
+        Article article = articleService.getArticle(id);
         return article;
     }
 }
