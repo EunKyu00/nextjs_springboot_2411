@@ -1,31 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 export default function ArticleDetail() {
-  const [articles, setArticles] = useState([]);
+  const params = useParams();
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    const result = await fetch("http://localhost:8091/api/v1/articles").then(
-      (row) => row.json()
-    );
-    setArticles(result.data.articles);
-    console.log(result.data.articles);
-  };
-
-  return (
-    <>
-      <ul>
-        {articles.map((article) => (
-          <li key={article.id}>
-            {article.id}/{article.subject}
-          </li>
-        ))}
-      </ul>
-    </>
-  );
+  return <>게시판 상세 {params.id}번</>;
 }
