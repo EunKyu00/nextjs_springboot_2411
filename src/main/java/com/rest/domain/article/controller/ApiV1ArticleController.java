@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -74,5 +75,35 @@ public class ApiV1ArticleController {
                 writeRs.getResultCode(),
                 writeRs.getMsg(),
                 new WriterResponse(writeRs.getData()));
+    }
+
+    @Data
+    public static  class ModifyRequest{
+        @NotBlank
+        private String subject;
+
+        @NotBlank
+        private String content;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ModifyResponse{
+        private final Article article;
+    }
+
+    @PatchMapping("/{id}")
+    public RsData modify(@Valid @RequestBody ModifyRequest modifyRequest, @PathVariable("id") Long id){
+        Optional<Article> opArticle = articleService.findById(id);
+
+        if (opArticle.isEmpty()) return RsData.of("F-1",
+                "%d번 게시물은 존재하지 않습니다.".formatted(id));
+
+        //회원 권한 체크 추가 예정
+
+        RsData<Article> modifyRs = articleService.modify(opArticle.get(),modifyRequest.getSubject(),modifyRequest.getContent());
+        return RsData.of(modifyRs.getResultCode(),
+                modifyRs.getMsg(),
+                new ModifyResponse(modifyRs.getData()));
     }
 }
