@@ -19,3 +19,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+input {
+  background-color: white; /* 흰색 배경 */
+  border: 1px solid #ccc; /* 테두리 */
+  padding: 8px 12px; /* 여백 */
+  color: black; /* 글자색 */
+  opacity: 1; /* 투명도 설정 */
+}
