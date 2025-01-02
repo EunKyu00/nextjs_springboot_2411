@@ -93,7 +93,7 @@ public class ApiV1ArticleController {
     }
 
     @PatchMapping("/{id}")
-    public RsData modify(@Valid @RequestBody ModifyRequest modifyRequest, @PathVariable("id") Long id){
+    public RsData<ModifyResponse> modify(@Valid @RequestBody ModifyRequest modifyRequest, @PathVariable("id") Long id){
         Optional<Article> opArticle = articleService.findById(id);
 
         if (opArticle.isEmpty()) return RsData.of("F-1",
@@ -105,5 +105,26 @@ public class ApiV1ArticleController {
         return RsData.of(modifyRs.getResultCode(),
                 modifyRs.getMsg(),
                 new ModifyResponse(modifyRs.getData()));
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class RemoveResponse{
+        private final Article article;
+    }
+
+    @DeleteMapping("/{id}")
+    public RsData<RemoveResponse> delete(@PathVariable("id") Long id){
+        Optional<Article> opArticle = articleService.findById(id);
+        if (opArticle.isEmpty()) return RsData.of("F-1","%d번 게시물이 존재하지 않습니다.".formatted(id));
+
+        //회원 권한 체크 추가 예정
+
+        RsData<Article> deleteRs = articleService.delete(id);
+        return RsData.of(
+                deleteRs.getResultCode(),
+                deleteRs.getMsg(),
+                new RemoveResponse(opArticle.get())
+        );
     }
 }
