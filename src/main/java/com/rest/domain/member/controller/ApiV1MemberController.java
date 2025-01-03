@@ -3,6 +3,7 @@ package com.rest.domain.member.controller;
 import com.rest.domain.member.dto.MemberDto;
 import com.rest.domain.member.entity.Member;
 import com.rest.domain.member.service.MemberService;
+import com.rest.global.rp.Rq;
 import com.rest.global.rsData.RsData;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -51,5 +52,12 @@ public class ApiV1MemberController {
     @GetMapping("/me")
     public String me() {
         return "내 정보";
+    }
+
+    @PostMapping("/logout")
+    public RsData<Void> logout() {
+        rq.removeCrossDomainCookie("accessToken");
+        rq.removeCrossDomainCookie("refreshToken");
+        return RsData.of("200", "로그아웃 성공");
     }
 }

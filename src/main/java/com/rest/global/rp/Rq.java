@@ -32,6 +32,16 @@ public class Rq {
                 .build();
         resp.addHeader("Set-Cookie", cookie.toString());
     }
+    public void removeCrossDomainCookie(String tokenName) {
+        ResponseCookie cookie = ResponseCookie.from(tokenName, null)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .build();
+        resp.addHeader("Set-Cookie", cookie.toString());
+    }
     public String getCookie(String name) {
         Cookie[] cookies = req.getCookies();
         return  Arrays.stream(cookies)
